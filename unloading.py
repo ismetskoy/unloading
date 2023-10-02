@@ -19,30 +19,7 @@ class WorkerThread(QThread):
             conn = oracledb.connect("Пароль и Логин к БД")
             cur = conn.cursor()
             query = """
-        select distinct s.application_id,
-                        s.code,
-                        cast(s.status_date as date),
-                        pc.product_class, cht.description
-        from cl_la.status s
-        left join product_content pc
-            on pc.application_id = s.application_id
-        left join trade_point tp on tp.application_id = s.application_id and tp.type ='registration'
-        left join cl_catalog.channel_type cht on cht.code = tp.channel_code
-        where s.current_status = 1
-            --and status_date > to_date('04.07.2023 7', 'dd.mm.yyyy hh24')
-            and status_date < sysdate - 1 / 24 / 5
-            and pc.type = '0'
-            and pc.product_class = 'GP'
-            and s.code not in ('Denied.Done',
-                                'Completed.Done',
-                                'Refused.Done',
-                                'LoanDetailsReceiving',
-                                'CCLoanDetailsReceiving',
-                                'AdditionalFilling',
-                                'ApplicationDataReceiving',
-                                'EnterEAN',
-                                'ESigningDocs',
-                                'SigningDocuments')
+        SQL Запрос
         """
             self.status_updated.emit("Выполнение SQL запроса...")
             self.progress_updated.emit(45)
